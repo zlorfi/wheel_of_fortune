@@ -7,7 +7,8 @@
   "dependencies": {
     "basePackages": {
       "foundation": {},
-      "font-awesome": {}
+      "font-awesome": {},
+      "momentjs": {}
     },
     "packages": {
       "foundation": {
@@ -19,6 +20,11 @@
         "git": "https://github.com/nate-strauser/meteor-font-awesome.git",
         "tag": "v3.2.0",
         "commit": "2cba6f907a2579cae2d399b522f9544c13d5e091"
+      },
+      "momentjs": {
+        "git": "https://github.com/crapthings/meteor-momentjs.git",
+        "tag": "v2.1.0",
+        "commit": "f421f51c2cb40093374a83adb932937da2f991d3"
       }
     }
   }

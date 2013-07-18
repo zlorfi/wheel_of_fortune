@@ -1,5 +1,7 @@
 Entries = new Meteor.Collection("entries")
 
+moment.lang "de"
+
 if Meteor.is_server
   Meteor.publish 'allEntries', ->
     Entries.find()
@@ -18,7 +20,7 @@ if Meteor.is_server
 
 if Meteor.is_client
   Meteor.subscribe 'allEntries'
-  Template.raffle.entries = -> Entries.find()
+  Template.raffle.entries = -> Entries.find({}, {sort: {created_at: -1}})
 
   Template.raffle.helpers
     gotOne: ->
@@ -26,11 +28,14 @@ if Meteor.is_client
     gotAny: ->
       findWinner = Entries.findOne(winner: true)
       if findWinner then true else false
+    selectedEntry: ->
+      entry = Entries.findOne(Session.get('selected_entry'))
+      if entry then entry.name else ''
   
   Template.raffle.events =
     'submit #new_entry': (event) ->
       event.preventDefault()
-      Entries.insert(name: $('#new_entry_name').val(), winner: false)
+      Entries.insert(name: $('#new_entry_name').val(), winner: false, created_at: moment().format())
       $('#new_entry_name').val('')
     
     'click #draw': ->
@@ -49,6 +54,18 @@ if Meteor.is_client
 
     'click .delete_id': ->
       Meteor.call 'removeEntry', this._id
+
+    'click #reset': ->
+      Entries.update(Session.get('selected_entry'), $set: {created_at: moment().subtract('m', 5).format()})
   
   Template.entry.winner_class = ->
     if this.recent then 'success' else 'secondary'
+
+  Template.entry.helpers
+    getDate: ->
+      if this.created_at then moment(this.created_at).fromNow() else ''
+
+  Template.entry.events
+    'click': ->
+      Session.set("selected_entry", this._id)
+

@@ -55,6 +55,8 @@
       </ul>
     </div>
   {{/if}}
+  <a href='#' class='small button' id='reset'>RESET USER DATE</a>
+  {{selectedEntry}}
 </template>
 
 <template name="entry">
@@ -62,7 +64,7 @@
   <li>
     <div class="row collapse">
       <div class="small-10 columns">
-        {{name}} <a href='#' class='delete_id'><i class="icon-remove-sign"></i></a>
+        {{name}} <small>{{getDate}}</small> <a href='#' class='delete_id'><i class="icon-remove-sign"></i></a>
       </div>
       <div class="small-2 columns">
         {{#if winner}}
