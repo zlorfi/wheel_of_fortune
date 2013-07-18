@@ -19,8 +19,13 @@ if Meteor.is_server
       Entries.remove({_id: target})
 
 if Meteor.is_client
-  Meteor.subscribe 'allEntries'
+  allEntries = Meteor.subscribe 'allEntries'
+
   Template.raffle.entries = -> Entries.find({}, {sort: {created_at: -1}})
+
+
+  Template.raffle.loading = ->
+    not allEntries.ready()
 
   Template.raffle.helpers
     gotOne: ->
@@ -57,7 +62,7 @@ if Meteor.is_client
 
     'click #reset': ->
       Entries.update(Session.get('selected_entry'), $set: {created_at: moment().subtract('m', 5).format()})
-  
+
   Template.entry.winner_class = ->
     if this.recent then 'success' else 'secondary'
 

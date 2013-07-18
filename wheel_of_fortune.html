@@ -32,31 +32,39 @@
 
   </form>
 
-  <div class="row">
-    <div class="large-12 columns">
-      <ul id="entries" class='no-bullet'>
-        {{#each entries}}
-          {{> entry}}
-        {{/each}}
-      </ul>
-    </div>
-  </div>
+  {{#if loading}}
+    <div class="panel">Loading...</div>
+  {{else}}
 
-  {{#if entries.count}}
-    <div class="button-bar">
-      <ul class="button-group radius">
-        <li><a href="#" class="small button" id="draw"><i class="icon-heart"></i> Draw Winner</a></li>
-        {{#if gotAny}}
-          <li><a href="#" class="small button" id="clear"><i class="icon-remove"></i> Clear all winners</a></li>
-        {{/if}}
-      </ul>
-      <ul class="button-group">
-        <li><a href="#" class="small button alert radius" id="destroy"><i class="icon-trash"></i> Destroy DB</a></li>
-      </ul>
+    <div class="row">
+      <div class="large-12 columns">
+        <ul id="entries" class='no-bullet'>
+          {{#each entries}}
+            {{> entry}}
+          {{/each}}
+        </ul>
+      </div>
     </div>
+
+    {{#if entries.count}}
+      <div class="button-bar">
+        <ul class="button-group radius">
+          <li><a href="#" class="small button" id="draw"><i class="icon-heart"></i> Draw Winner</a></li>
+          {{#if gotAny}}
+            <li><a href="#" class="small button" id="clear"><i class="icon-remove"></i> Clear all winners</a></li>
+          {{/if}}
+        </ul>
+        <ul class="button-group">
+          <li><a href="#" class="small button alert radius" id="destroy"><i class="icon-trash"></i> Destroy DB</a></li>
+        </ul>
+      </div>
+    {{/if}}
+
+    <a href='#' class='small button' id='reset'>RESET USER DATE</a>
+
+    {{selectedEntry}}
+
   {{/if}}
-  <a href='#' class='small button' id='reset'>RESET USER DATE</a>
-  {{selectedEntry}}
 </template>
 
 <template name="entry">
