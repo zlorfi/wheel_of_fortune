@@ -1,0 +1,74 @@
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Wheel of Fortune</title>
+</head>
+
+<body>
+  <div class='row'>
+    <div class='large-8 columns'
+      <div id="container">{{> raffle}}</div>
+    </div>
+  </div>
+</body>
+
+<template name="raffle">
+  <h1 class="subheader">Wheel of Fortune</h1>
+
+  <form id="new_entry">
+
+    <div class="row">
+      <div class="large-12 columns">
+        <div class="row collapse">
+          <div class="small-10 columns">
+            <input type="text" name="name" id="new_entry_name" placeholder="Enter name">
+          </div>
+          <div class="small-2 columns">
+            <input type="submit" value="Add" class='button success prefix'>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <div class="row">
+    <div class="large-12 columns">
+      <ul id="entries" class='no-bullet'>
+        {{#each entries}}
+          {{> entry}}
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+
+  {{#if entries.count}}
+    <div class="button-bar">
+      <ul class="button-group radius">
+        <li><a href="#" class="small button" id="draw"><i class="icon-heart"></i> Draw Winner</a></li>
+        {{#if gotAny}}
+          <li><a href="#" class="small button" id="clear"><i class="icon-remove"></i> Clear all winners</a></li>
+        {{/if}}
+      </ul>
+      <ul class="button-group">
+        <li><a href="#" class="small button alert radius" id="destroy"><i class="icon-trash"></i> Destroy DB</a></li>
+      </ul>
+    </div>
+  {{/if}}
+</template>
+
+<template name="entry">
+  <hr>
+  <li>
+    <div class="row collapse">
+      <div class="small-10 columns">
+        {{name}} <a href='#' class='delete_id'><i class="icon-remove-sign"></i></a>
+      </div>
+      <div class="small-2 columns">
+        {{#if winner}}
+          <span class="label {{winner_class}}">WINNER</span>
+        {{/if}}
+      </div>
+    </div>
+  </li>
+</template>
