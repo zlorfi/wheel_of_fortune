@@ -7,13 +7,13 @@
 <body>
   <div class='row'>
     <div class='large-8 columns'
-      <div id="container">{{> raffle}}</div>
+      <div id="container">{{> wheel}}</div>
     </div>
   </div>
 </body>
 
-<template name="raffle">
-  <h1 class="subheader">Wheel of Fortune</h1>
+<template name="wheel">
+  <h2 class="subheader">Wheel of Fortune</h2>
 
   <form id="new_entry">
 
@@ -60,7 +60,7 @@
       </div>
     {{/if}}
 
-    <a href='#' class='small button' id='reset'>RESET USER DATE</a>
+    <a href='#' class='small button radius' id='reset'>RESET USER DATE</a>
 
     {{selectedEntry}}
 

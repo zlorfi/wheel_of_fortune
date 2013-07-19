@@ -5,9 +5,9 @@ moment.lang "de"
 if Meteor.is_server
   Meteor.publish 'allEntries', ->
     Entries.find()
-    #Entries.find({winner: false})
+    # Entries.find({winner: false})
 
-  #Meteor.startup ->
+  # Meteor.startup ->
   Meteor.methods
     resetWinners: ->
       Entries.update({recent: true}, {$set: {recent: false}}, {multi: true})
@@ -15,21 +15,19 @@ if Meteor.is_server
       Entries.update({winner: true}, {$set: {winner: false}}, {multi: true})
     resetDB: ->
       Entries.remove {}
-    removeEntry: (target) ->
+    resetEntry: (target) ->
       Entries.remove({_id: target})
 
 if Meteor.is_client
   allEntries = Meteor.subscribe 'allEntries'
 
-  Template.raffle.entries = -> Entries.find({}, {sort: {created_at: -1}})
+  Template.wheel.entries = ->
+    Entries.find({}, {sort: {created_at: -1}})
 
-
-  Template.raffle.loading = ->
+  Template.wheel.loading = ->
     not allEntries.ready()
 
-  Template.raffle.helpers
-    gotOne: ->
-      Session.get('gotOne')
+  Template.wheel.helpers
     gotAny: ->
       findWinner = Entries.findOne(winner: true)
       if findWinner then true else false
@@ -37,7 +35,7 @@ if Meteor.is_client
       entry = Entries.findOne(Session.get('selected_entry'))
       if entry then entry.name else ''
   
-  Template.raffle.events =
+  Template.wheel.events =
     'submit #new_entry': (event) ->
       event.preventDefault()
       Entries.insert(name: $('#new_entry_name').val(), winner: false, created_at: moment().format())
@@ -48,17 +46,15 @@ if Meteor.is_client
       if winner
         Meteor.call 'resetWinners'
         Entries.update(winner._id, $set: {winner: true, recent: true})
-        #Session.set('gotOne', true)
 
     'click #clear': ->
       Meteor.call 'resetAll'
-      #Session.set('gotOne', false)
 
     'click #destroy': ->
       Meteor.call 'resetDB'
 
     'click .delete_id': ->
-      Meteor.call 'removeEntry', this._id
+      Meteor.call 'resetEntry', this._id
 
     'click #reset': ->
       Entries.update(Session.get('selected_entry'), $set: {created_at: moment().subtract('m', 5).format()})
@@ -70,7 +66,6 @@ if Meteor.is_client
     getDate: ->
       if this.created_at then moment(this.created_at).fromNow() else ''
 
-  Template.entry.events
+  Template.entry.events =
     'click': ->
       Session.set("selected_entry", this._id)
-
