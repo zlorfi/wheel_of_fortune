@@ -6,6 +6,7 @@
   "packages": {
     "foundation": {},
     "font-awesome": {},
-    "momentjs": {}
+    "momentjs": {},
+    "spin": {}
   }
 }

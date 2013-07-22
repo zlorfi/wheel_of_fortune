@@ -33,7 +33,9 @@
   </form>
 
   {{#if loading}}
-    <div class="panel">Loading...</div>
+
+    {{> spinner}}
+
   {{else}}
 
     <div class="row">
